@@ -1,5 +1,9 @@
-Tela inicial:
+<x-guest-layout>
 
-Produtos...
+    Tela inicial:
 
-Login - registro
+    Produtos...
+
+    Login - registro
+
+</x-guest-layout>
