@@ -20,7 +20,7 @@ A loja virtual é um sistema web que permite usuários autenticados criarem, edi
 - **Framework**: Laravel 12.0
 - **PHP**: 8.2+
 - **Frontend**: Blade Templates + Tailwind CSS + Vite
-- **Database**: MySQL/SQLite
+- **Database**: MySQL
 - **Autenticação**: Laravel Breeze
 - **Testes**: Pest PHP
 
