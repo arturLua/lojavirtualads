@@ -7,11 +7,9 @@
         <label>Nome:</label><br>
         <input name="name" type="text" value="{{ $product['name'] }}" /><br>
         <label>Descrição:</label><br>
-        <input name="description" type="textarea" value="{{
-$product['description'] }}" /><br>
+        <input name="description" type="textarea" value="{{ $product['description'] }}" /><br>
         <label>Quantidade:</label><br>
-        <input name="quantity" type="number" value="{{ $product['quantity']
-}}" /><br>
+        <input name="quantity" type="number" value="{{ $product['quantity'] }}" /><br>
         <label>Preço:</label><br>
         <input name="price" type="number" value="{{ $product['price'] }}" /><br>
         <label>Tipo do produto:</label><br>

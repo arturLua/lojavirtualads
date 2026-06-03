@@ -1,7 +1,6 @@
 <x-app-layout>
 
-    <form class="w-full mx-auto max-w-md bg-white dark:bg-gray-800 p-6 rounded-lg
-shadow" action="{{ url('products/new') }}" method="POST">
+    <form class="w-full mx-auto max-w-md bg-white dark:bg-gray-800 p-6 rounded-lg shadow" action="{{ url('products/new') }}" method="POST">
         @csrf
 
         <h1 class="text-2xl font-bold mb-6 text-gray-900 dark:text-white">Cadastrar Produto</h1>
