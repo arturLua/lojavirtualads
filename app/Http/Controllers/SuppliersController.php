@@ -57,9 +57,9 @@ class SuppliersController extends Controller
     public function update(Request $request)
     {
         $request->validate([
-            'name'    => 'required|min:2|max:100',
-            'email'   => 'nullable|email|max:100',
-            'phone'   => 'nullable|max:20',
+            'name' => 'required|min:2|max:100',
+            'email' => 'nullable|email|max:100',
+            'phone' => 'nullable|max:20',
             'address' => 'nullable|max:255',
         ]);
 
@@ -67,9 +67,9 @@ class SuppliersController extends Controller
 
         //método update faz um update suppliers set name = ? etc...
         $supplier->update([
-            'name'    => $request->name,
-            'email'   => $request->email,
-            'phone'   => $request->phone,
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone' => $request->phone,
             'address' => $request->address,
         ]);
 
