@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SuppliersController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -17,6 +18,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
+    // rotas de produtos
     Route::get('/products/new', [ProductsController::class, 'create']);
     Route::post('/products/new', [ProductsController::class, 'store']);
 
@@ -26,6 +28,17 @@ Route::middleware('auth')->group(function () {
     Route::post('/products/update/', [ProductsController::class, 'update']);
 
     Route::get('/products/delete/{id}', [ProductsController::class, 'destroy']);
+
+    // rotas de fornecedores (suppliers)
+    Route::get('/suppliers/new', [SuppliersController::class, 'create']);
+    Route::post('/suppliers/new', [SuppliersController::class, 'store']);
+
+    Route::get('/suppliers', [SuppliersController::class, 'index']);
+
+    Route::get('/suppliers/update/{id}', [SuppliersController::class, 'edit']);
+    Route::post('/suppliers/update/', [SuppliersController::class, 'update']);
+
+    Route::get('/suppliers/delete/{id}', [SuppliersController::class, 'destroy']);
 });
 
 require __DIR__ . '/auth.php';
