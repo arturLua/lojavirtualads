@@ -1,92 +1,111 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>{{ config('app.name', 'Loja Virtual') }}</title>
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ config('app.name', 'Loja Virtual') }}</title>
+        <link rel="preconnect" href="https://fonts.bunny.net">
+        <link href="https://fonts.bunny.net/css?family=figtree:300,400,500,600,700&display=swap" rel="stylesheet" />
 
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
+    </head>
+    <body class="bg-slate-950 text-slate-100 antialiased">
 
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
+        <!-- cabeçalho -->
+        <header class="bg-slate-900 border-b border-slate-800 sticky top-0 z-10">
+            <div class="max-w-7xl mx-auto px-6 lg:px-8 h-16 flex items-center justify-between">
 
-<body class="font-sans antialiased bg-gray-100 dark:bg-gray-900">
-
-    <!-- cabeçalho -->
-    <header class="bg-white dark:bg-gray-800 shadow">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-            <span class="text-xl font-bold text-gray-900 dark:text-white">
-                {{ config('app.name', 'Loja Virtual') }}
-            </span>
-            <div class="flex space-x-4">
-                @auth
-                <a href="{{ url('/dashboard') }}" class="text-sm text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">
-                    Dashboard
+                <a href="{{ url('/') }}" class="text-white text-lg font-semibold tracking-widest uppercase">
+                    {{ config('app.name', 'Loja Virtual') }}
                 </a>
-                @else
-                <a href="{{ route('login') }}" class="text-sm text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">
-                    Entrar
-                </a>
-                <a href="{{ route('register') }}" class="text-sm bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700">
-                    Registrar
-                </a>
-                @endauth
+
+                <nav class="flex items-center space-x-4">
+                    @auth
+                        <a href="{{ url('/dashboard') }}" class="text-slate-300 text-sm hover:text-white transition-colors">
+                            Dashboard
+                        </a>
+                    @else
+                        <a href="{{ route('login') }}" class="text-slate-300 text-sm hover:text-white transition-colors">
+                            Entrar
+                        </a>
+                        <a href="{{ route('register') }}" class="text-sm border border-amber-500 text-amber-400 px-4 py-1.5 rounded-full hover:bg-amber-500 hover:text-slate-900 transition-all font-medium">
+                            Criar conta
+                        </a>
+                    @endauth
+                </nav>
+
             </div>
-        </div>
-    </header>
+        </header>
 
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <main class="max-w-7xl mx-auto px-6 lg:px-8 py-12">
 
-        <h1 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">Produtos</h1>
-
-        <!-- filtro por tipo -->
-        <form method="GET" action="{{ url('/') }}" class="mb-8">
-            <div class="flex items-center space-x-3">
-                <label class="text-sm font-medium text-gray-700 dark:text-gray-300">Filtrar por tipo:</label>
-                <select name="type_id" onchange="this.form.submit()" class="rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white text-sm p-2">
-                    <option value="">Todos</option>
-                    @foreach($types as $type)
-                    <option value="{{ $type->id }}" @selected($selectedTypeId==$type->id)>
-                        {{ $type->name }}
-                    </option>
-                    @endforeach
-                </select>
+            <!-- título da seção -->
+            <div class="mb-8">
+                <h1 class="text-3xl font-bold text-white tracking-tight">Produtos</h1>
+                <p class="text-slate-500 mt-1 text-sm">{{ $products->count() }} {{ $products->count() === 1 ? 'item disponível' : 'itens disponíveis' }}</p>
             </div>
-        </form>
 
-        <!-- listagem de produtos -->
-        @if($products->isEmpty())
-        <p class="text-gray-500 dark:text-gray-400">Nenhum produto encontrado.</p>
-        @else
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            @foreach($products as $product)
-            <div class="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
+            <!-- filtro por tipo — pills -->
+            <div class="flex flex-wrap gap-2 mb-10">
+                <a href="{{ url('/') }}"
+                   class="pill-{{ is_null($selectedTypeId) ? 'active' : 'inactive' }} text-sm px-4 py-1.5 rounded-full font-medium transition-colors">
+                    Todos
+                </a>
+                @foreach($types as $type)
+                <a href="{{ url('/') }}?type_id={{ $type->id }}"
+                   class="pill-{{ $selectedTypeId == $type->id ? 'active' : 'inactive' }} text-sm px-4 py-1.5 rounded-full font-medium transition-colors">
+                    {{ $type->name }}
+                </a>
+                @endforeach
+            </div>
 
-                <!-- imagem do produto -->
-                @if($product->image)
-                <div class="w-full h-48 flex items-center justify-center bg-gray-100 dark:bg-gray-700">
-                    <img src="{{ Storage::url($product->image) }}" alt="{{ $product->name }}" class="h-full object-contain">
-                </div> @else
-                <div class="w-full h-48 bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
-                    <span class="text-gray-400 dark:text-gray-500 text-sm">Sem imagem</span>
+            <!-- listagem de produtos -->
+            @if($products->isEmpty())
+            <div class="text-center py-24">
+                <p class="text-slate-500 text-lg">Nenhum produto encontrado para este filtro.</p>
+                <a href="{{ url('/') }}" class="mt-4 inline-block text-amber-400 text-sm hover:underline">Ver todos os produtos</a>
+            </div>
+            @else
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                @foreach($products as $product)
+                <div class="card-product bg-slate-800 rounded-2xl overflow-hidden border border-slate-700">
+
+                    <!-- imagem -->
+                    <div class="w-full h-52 bg-slate-700 flex items-center justify-center overflow-hidden">
+                        @if($product->image)
+                        <img src="{{ Storage::url($product->image) }}"
+                             alt="{{ $product->name }}"
+                             class="h-full object-contain">
+                        @else
+                        <span class="text-slate-500 text-sm tracking-wide uppercase">Sem imagem</span>
+                        @endif
+                    </div>
+
+                    <!-- informações do produto -->
+                    <div class="p-4">
+                        @if($product->type)
+                        <span class="text-xs text-slate-500 uppercase tracking-widest font-medium">{{ $product->type->name }}</span>
+                        @endif
+                        <h2 class="text-slate-100 font-semibold mt-1 mb-3 leading-snug">{{ $product->name }}</h2>
+                        <p class="text-amber-400 font-bold text-lg">
+                            R$ {{ number_format($product->price, 2, ',', '.') }}
+                        </p>
+                    </div>
+
                 </div>
-                @endif
-
-                <!-- informações do produto -->
-                <div class="p-4">
-                    <h2 class="text-base font-semibold text-gray-900 dark:text-white mb-1">{{ $product->name }}</h2>
-                    <p class="text-blue-600 dark:text-blue-400 font-bold">R$ {{ number_format($product->price, 2, ',', '.') }}</p>
-                </div>
-
+                @endforeach
             </div>
-            @endforeach
-        </div>
-        @endif
+            @endif
 
-    </main>
+        </main>
 
-</body>
+        <!-- rodapé -->
+        <footer class="mt-24 border-t border-slate-800 py-8">
+            <div class="max-w-7xl mx-auto px-6 lg:px-8 text-center text-slate-600 text-sm">
+                © {{ date('Y') }} {{ config('app.name', 'Loja Virtual') }}. Todos os direitos reservados.
+            </div>
+        </footer>
 
+    </body>
 </html>

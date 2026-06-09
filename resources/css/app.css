@@ -1,3 +1,27 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* estilos do card de produto — área pública */
+.card-product {
+    transition: box-shadow 0.25s ease, transform 0.25s ease;
+}
+.card-product:hover {
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.40);
+    transform: translateY(-3px);
+}
+
+/* pills de filtro por tipo — área pública */
+.pill-active {
+    background-color: #d97706;
+    color: #ffffff;
+}
+.pill-inactive {
+    background-color: #1e293b;
+    color: #94a3b8;
+    border: 1px solid #334155;
+}
+.pill-inactive:hover {
+    background-color: #273449;
+    color: #e2e8f0;
+}
