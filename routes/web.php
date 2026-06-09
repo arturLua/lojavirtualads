@@ -3,11 +3,11 @@
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SuppliersController;
+use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// rota pública — página inicial com listagem de produtos
+Route::get('/', [WelcomeController::class, 'index']);
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -29,7 +29,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/products/delete/{id}', [ProductsController::class, 'destroy']);
 
-    // rotas de fornecedores (suppliers)
+    // rotas de fornecedores
     Route::get('/suppliers/new', [SuppliersController::class, 'create']);
     Route::post('/suppliers/new', [SuppliersController::class, 'store']);
 
