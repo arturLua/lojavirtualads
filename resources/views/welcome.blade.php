@@ -12,31 +12,7 @@
     </head>
     <body class="bg-slate-950 text-slate-100 antialiased">
 
-        <!-- cabeçalho -->
-        <header class="bg-slate-900 border-b border-slate-800 sticky top-0 z-10">
-            <div class="max-w-7xl mx-auto px-6 lg:px-8 h-16 flex items-center justify-between">
-
-                <a href="{{ url('/') }}" class="text-white text-lg font-semibold tracking-widest uppercase">
-                    {{ config('app.name', 'Loja Virtual') }}
-                </a>
-
-                <nav class="flex items-center space-x-4">
-                    @auth
-                        <a href="{{ url('/dashboard') }}" class="text-slate-300 text-sm hover:text-white transition-colors">
-                            Dashboard
-                        </a>
-                    @else
-                        <a href="{{ route('login') }}" class="text-slate-300 text-sm hover:text-white transition-colors">
-                            Entrar
-                        </a>
-                        <a href="{{ route('register') }}" class="text-sm border border-amber-500 text-amber-400 px-4 py-1.5 rounded-full hover:bg-amber-500 hover:text-slate-900 transition-all font-medium">
-                            Criar conta
-                        </a>
-                    @endauth
-                </nav>
-
-            </div>
-        </header>
+        @include('layouts.navigation')
 
         <main class="max-w-7xl mx-auto px-6 lg:px-8 py-12">
 
