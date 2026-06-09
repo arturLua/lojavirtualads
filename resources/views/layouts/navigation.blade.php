@@ -10,7 +10,8 @@
                     </a>
                 </div>
 
-                <!-- Navigation Links -->
+                <!-- Navigation Links — visíveis apenas para usuários autenticados -->
+                @auth
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')"
                         class="text-slate-300 hover:text-white border-transparent hover:border-amber-500">
@@ -26,11 +27,18 @@
                         class="text-slate-300 hover:text-white border-transparent hover:border-amber-500">
                         {{ __('Fornecedores') }}
                     </x-nav-link>
+
+                    <x-nav-link href="{{ url('/') }}" :active="request()->is('/')"
+                        class="text-amber-400 hover:text-amber-300 border-transparent hover:border-amber-500">
+                        {{ __('Ver Loja') }}
+                    </x-nav-link>
                 </div>
+                @endauth
             </div>
 
-            <!-- Settings Dropdown -->
+            <!-- Settings Dropdown / botões públicos -->
             <div class="hidden sm:flex sm:items-center sm:ms-6">
+                @auth
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-slate-300 bg-slate-900 hover:text-white focus:outline-none transition ease-in-out duration-150">
@@ -58,6 +66,16 @@
                         </form>
                     </x-slot>
                 </x-dropdown>
+                @else
+                <div class="flex items-center space-x-4">
+                    <a href="{{ route('login') }}" class="text-slate-300 text-sm hover:text-white transition-colors">
+                        Entrar
+                    </a>
+                    <a href="{{ route('register') }}" class="text-sm border border-amber-500 text-amber-400 px-4 py-1.5 rounded-full hover:bg-amber-500 hover:text-slate-900 transition-all font-medium">
+                        Criar conta
+                    </a>
+                </div>
+                @endauth
             </div>
 
             <!-- Hamburger -->
@@ -74,6 +92,7 @@
 
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
+        @auth
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
@@ -86,10 +105,16 @@
             <x-responsive-nav-link href="{{ url('suppliers') }}" :active="request()->is('suppliers*')">
                 {{ __('Fornecedores') }}
             </x-responsive-nav-link>
+
+            <x-responsive-nav-link href="{{ url('/') }}" :active="request()->is('/')">
+                {{ __('Ver Loja') }}
+            </x-responsive-nav-link>
         </div>
+        @endauth
 
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-slate-800">
+            @auth
             <div class="px-4">
                 <div class="font-medium text-base text-slate-200">{{ Auth::user()->name }}</div>
                 <div class="font-medium text-sm text-slate-500">{{ Auth::user()->email }}</div>
@@ -109,6 +134,16 @@
                     </x-responsive-nav-link>
                 </form>
             </div>
+            @else
+            <div class="mt-3 space-y-1 px-4">
+                <x-responsive-nav-link :href="route('login')">
+                    {{ __('Entrar') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('register')">
+                    {{ __('Criar conta') }}
+                </x-responsive-nav-link>
+            </div>
+            @endauth
         </div>
     </div>
 </nav>
