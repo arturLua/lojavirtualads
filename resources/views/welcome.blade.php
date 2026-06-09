@@ -66,8 +66,9 @@
 
                 <!-- imagem do produto -->
                 @if($product->image)
-                <img src="{{ Storage::url($product->image) }}" alt="{{ $product->name }}" class="w-full h-48 object-cover">
-                @else
+                <div class="w-full h-48 flex items-center justify-center bg-gray-100 dark:bg-gray-700">
+                    <img src="{{ Storage::url($product->image) }}" alt="{{ $product->name }}" class="h-full object-contain">
+                </div> @else
                 <div class="w-full h-48 bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
                     <span class="text-gray-400 dark:text-gray-500 text-sm">Sem imagem</span>
                 </div>
